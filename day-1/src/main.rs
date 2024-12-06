@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::fs::File;
 use std::io;
-use std::convert::TryInto;
 mod reader;
 
 
@@ -34,7 +33,7 @@ fn main() {
     let mut similarities: HashMap<i32, i32> = HashMap::new();
 
     // get similarities
-    left.clone().into_iter().for_each(|n| { similarities.entry(n).or_insert(right.clone().into_iter().filter(|v: &i32| n == v.clone()).count().try_into().unwrap()); });
+    left.clone().into_iter().for_each(|n| { similarities.entry(n).or_insert(right.clone().into_iter().filter(|v: &i32| n == v.clone()).count() as i32); });
 
     //reduce total
     let similarity_score:i32 = similarities.into_iter().map(|(key, value)| key*value).reduce(|acc, e| acc + e).unwrap();
