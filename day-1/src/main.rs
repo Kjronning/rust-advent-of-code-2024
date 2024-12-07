@@ -15,7 +15,7 @@ fn parse_input(lines: io::Lines<io::BufReader<File>>) -> (Vec<i32>, Vec<i32>) {
     }
     left.sort();
     right.sort();
-    return (left, right); 
+    (left, right)
 }
 
 fn main() {
@@ -24,7 +24,7 @@ fn main() {
     
     // Part One
     // calculate distances
-    let distance: i32 = left.clone().into_iter().zip(right.clone().into_iter()).map(|(x, y)| (x-y).abs()).reduce(|acc, e| acc+e).unwrap();
+    let distance: i32 = left.iter().zip(right.iter()).map(|(x, y)| (x).abs_diff(y)).sum();
     
     // print result
     println!("Part One result: {}", distance);
@@ -33,10 +33,18 @@ fn main() {
     let mut similarities: HashMap<i32, i32> = HashMap::new();
 
     // get similarities
-    left.clone().into_iter().for_each(|n| { similarities.entry(n).or_insert(right.clone().into_iter().filter(|v: &i32| n == v.clone()).count() as i32); });
+    left.iter().for_each(|n| { 
+        similarities.entry(*n).or_insert(right.iter()
+            .filter(|v| n == *v)
+            .count() as i32); 
+    });
 
     //reduce total
-    let similarity_score:i32 = similarities.into_iter().map(|(key, value)| key*value).reduce(|acc, e| acc + e).unwrap();
+    let similarity_score:i32 = similarities
+    .iter()
+    .map(|(key, value)| key*value)
+    .reduce(|acc, e| acc + e)
+    .unwrap();
 
     // print result
     println!("Part Two result: {similarity_score}");

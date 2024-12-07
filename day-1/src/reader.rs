@@ -5,12 +5,13 @@ use std::path::Path;
 
 pub fn read(filename: &str) -> std::io::Lines<io::BufReader<File>>{
     // File hosts.txt must exist in the current path
-    return read_lines(filename).unwrap();
+    read_lines(filename).unwrap()
 }
 
 
 // The output is wrapped in a Result to allow matching on errors.
 // Returns an Iterator to the Reader of the lines of the file.
+#[inline]
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
 where P: AsRef<Path>, {
     let file = File::open(filename)?;
